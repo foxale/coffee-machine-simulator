@@ -1,5 +1,6 @@
 # coding=utf-8
 from src.exceptions import TurnedOff
+from src.models.coffee import Coffee
 
 
 class CoffeeMachine:
@@ -19,4 +20,13 @@ class CoffeeMachine:
     def turn_off(self):
         """It's over. Turn is off, for God's sake."""
         self._is_on = False
+
+    def prepare_coffee(self):
+        """Preparing Coffee never was so simple."""
+        if self._is_on is False:
+            raise TurnedOff
+        return Coffee()
+
+
+
 
