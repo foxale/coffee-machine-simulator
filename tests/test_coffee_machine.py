@@ -2,6 +2,7 @@ from typing import List
 
 import pytest
 
+from src.exceptions import NotEnoughMilk
 from src.exceptions import NotEnoughWater
 from src.exceptions import TurnedOff
 from src.models.coffee import Coffee
@@ -48,8 +49,8 @@ class TestCoffeeMachine:
 
     @pytest.mark.xfail(
         raises=AssertionError,
-        reason='''Filling container functionality not implemented yet,
-               so the container is automatically filled to the brim''')
+        reason='''Initializing Canister with 0 or filled with substance is a still 
+               unresolved issue''')
     def test_water_level(self, create_coffee_machine):
         """Test checking the water level in WaterTank"""
         assert create_coffee_machine.water_level == 0
@@ -67,11 +68,32 @@ class TestCoffeeMachine:
         ]
         assert_all_elements_are_equal(elements=default_beverage_volumes)
 
-    def test_prepare_coffee_raise_exception_when_not_enough_water(self, create_coffee_machine: CoffeeMachine):
-        """Test preparing coffee with not enough water in the canister"""
+    def test_prepare_coffee_raise_exception_when_not_enough_water(
+            self,
+            create_coffee_machine: CoffeeMachine):
+        """Test preparing coffee with not enough water in the WaterCanister"""
         coffee_volume = create_coffee_machine.get_beverage_volume(beverage='coffee')
         create_coffee_machine.turn_on()
-        while create_coffee_machine.water_level > coffee_volume:
+        while create_coffee_machine.water_level >= coffee_volume:
             create_coffee_machine.prepare_coffee()
         with pytest.raises(NotEnoughWater):
             create_coffee_machine.prepare_coffee()
+
+    def test_prepare_coffee_with_milk(self, create_coffee_machine: CoffeeMachine):
+        """Test preparing coffee with milk"""
+        create_coffee_machine.turn_on()
+        _coffee_with_milk_1 = create_coffee_machine.prepare_coffee(with_milk=True)
+        _coffee_with_milk_2 = create_coffee_machine.prepare_coffee_with_milk()
+        assert _coffee_with_milk_1 == _coffee_with_milk_2
+
+    def test_prepare_coffee_raise_exception_when_not_enough_milk(
+            self,
+            create_coffee_machine: CoffeeMachine):
+        """Test preparing coffee with not enough milk in the MilkCanister"""
+        create_coffee_machine.turn_on()
+        while create_coffee_machine.milk_level >= create_coffee_machine.milk_serving:
+            create_coffee_machine.prepare_coffee(with_milk=True)
+            create_coffee_machine.refill_water()
+        with pytest.raises(NotEnoughMilk):
+            create_coffee_machine.prepare_coffee(with_milk=True)
+

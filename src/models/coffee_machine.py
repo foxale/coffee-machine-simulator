@@ -1,9 +1,11 @@
 # coding=utf-8
 from typing import Dict
 
+from src.exceptions import NotEnoughMilk
 from src.exceptions import NotEnoughWater
 from src.exceptions import TurnedOff
-from src.models.canister import Canister
+from src.models.canister import MilkCanister
+from src.models.canister import WaterCanister
 from src.models.coffee import Coffee
 from src.utils import Mililiters
 
@@ -32,6 +34,63 @@ class CoffeeMachine:
             'default': 100,
         }
     }
+    _milk_serving: Mililiters = 50
+
+    def __init__(self,
+                 water_canister_capacity: Mililiters = 1000,
+                 milk_canister_capacity: Mililiters = 500):
+        self._is_on = False
+        self._water_canister = WaterCanister(capacity=water_canister_capacity)
+        self._milk_canister = MilkCanister(capacity=milk_canister_capacity)
+
+    @property
+    def is_on(self) -> bool:
+        return self._is_on
+
+    @property
+    def water_level(self) -> Mililiters:
+        """Check the remaining water in the canister"""
+        return self._water_canister.fill_level
+
+    @property
+    def milk_level(self) -> Mililiters:
+        """Check the remaining milk in the canister"""
+        return self._milk_canister.fill_level
+
+    @property
+    def milk_serving(self) -> Mililiters:
+        """Check the milk serving for a beverage with milk"""
+        return CoffeeMachine._milk_serving
+
+    def turn_on(self) -> None:
+        """Just turn the CoffeeMachine on."""
+        self._is_on = True
+
+    def turn_off(self) -> None:
+        """It's over. Turn is off, for God's sake."""
+        self._is_on = False
+
+    def prepare_coffee(self, serving: str = 'default', with_milk: bool = False) -> Coffee:
+        """Preparing Coffee never was so simple."""
+        _coffee_volume = self.get_beverage_volume(beverage='coffee', serving=serving)
+        if self._is_on is False:
+            raise TurnedOff
+        try:
+            _water_needed = self._water_canister.get_water(volume=_coffee_volume)
+        except NotEnoughWater:
+            raise NotEnoughWater
+        try:
+            _milk_needed = self._milk_canister.get_milk(volume=self._milk_serving)
+        except NotEnoughMilk:
+            raise NotEnoughMilk
+        else:
+            # TODO: use the water to brew coffee with Brewer object
+            #  instead of just mocking the whole process
+            return Coffee(volume=_water_needed, with_milk=with_milk)
+
+    def prepare_coffee_with_milk(self, serving: str = 'default') -> Coffee:
+        """Explicitly ask for a coffee with milk. No milk, no satisfaction."""
+        return self.prepare_coffee(serving=serving, with_milk=True)
 
     @staticmethod
     def _get_servings_mapping(beverage: str = 'default') -> Dict[str, Mililiters]:
@@ -52,36 +111,11 @@ class CoffeeMachine:
             # TODO: inform about switching to default value
             return _beverage_serving_to_ml['default']
 
-    def __init__(self, canister_capacity: Mililiters = 1000):
-        self._is_on = False
-        self._canister = Canister(capacity=canister_capacity)
+    def refill_water(self):
+        """Make sure there is enough water for the beverages to be brewed"""
+        self._water_canister.refill()
 
-    @property
-    def is_on(self):
-        return self._is_on
+    def refill_milk(self):
+        """Don't forget about the milk"""
+        self._milk_canister.refill()
 
-    def turn_on(self):
-        """Just turn the CoffeeMachine on."""
-        self._is_on = True
-
-    def turn_off(self):
-        """It's over. Turn is off, for God's sake."""
-        self._is_on = False
-
-    def prepare_coffee(self, serving: str = 'default'):
-        """Preparing Coffee never was so simple."""
-        _coffee_volume = self.get_beverage_volume(beverage='coffee', serving=serving)
-        if self._is_on is False:
-            raise TurnedOff
-        try:
-            _water_needed = self._canister.get_water(volume=_coffee_volume)
-        except NotEnoughWater:
-            raise NotEnoughWater from NotEnoughWater
-        else:
-            # TODO: use the water to brew coffee instead of mocking the process
-            return Coffee(volume=_water_needed)
-
-    @property
-    def water_level(self):
-        """Check the remaining water in the canister"""
-        return self._canister.water_level
