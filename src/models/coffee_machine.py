@@ -43,6 +43,12 @@ class CoffeeMachine:
         self._water_canister = WaterCanister(capacity=water_canister_capacity)
         self._milk_canister = MilkCanister(capacity=milk_canister_capacity)
 
+    def __str__(self):
+        return f'''CoffeeMachine with: 
+        WaterCanister ({self._water_canister.fill_level}/{self._water_canister.capacity} ml) 
+        MilkCanister ({self._milk_canister.fill_level}/{self._milk_canister.capacity} ml)
+        Turned {"ON" if self._is_on else "OFF"}'''
+        
     @property
     def is_on(self) -> bool:
         return self._is_on
@@ -92,6 +98,14 @@ class CoffeeMachine:
         """Explicitly ask for a coffee with milk. No milk, no satisfaction."""
         return self.prepare_coffee(serving=serving, with_milk=True)
 
+    def refill_water(self):
+        """Make sure there is enough water for the beverages to be brewed"""
+        self._water_canister.refill()
+
+    def refill_milk(self):
+        """Don't forget about the milk"""
+        self._milk_canister.refill()
+
     @staticmethod
     def _get_servings_mapping(beverage: str = 'default') -> Dict[str, Mililiters]:
         """Get a mapping between the beverage and its servings"""
@@ -111,11 +125,4 @@ class CoffeeMachine:
             # TODO: inform about switching to default value
             return _beverage_serving_to_ml['default']
 
-    def refill_water(self):
-        """Make sure there is enough water for the beverages to be brewed"""
-        self._water_canister.refill()
-
-    def refill_milk(self):
-        """Don't forget about the milk"""
-        self._milk_canister.refill()
 
