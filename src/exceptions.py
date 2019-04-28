@@ -13,3 +13,7 @@ class CoffeeMachineException(Exception):
 
 class TurnedOff(CoffeeMachineException):
     """An action was performed on a Machine turned off"""
+
+
+class NotEnoughWater(CoffeeMachineException):
+    """There is not enough water to continue an action"""
