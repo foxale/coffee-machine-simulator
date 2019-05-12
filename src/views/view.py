@@ -15,10 +15,14 @@ from src.utils import Mililiters
 def present_coffee_machine(water_canister_fill_level: Mililiters,
                            milk_canister_fill_level: Mililiters,
                            is_on: bool):
-    return f'''CoffeeMachine with: 
-        WaterCanister ({water_canister_fill_level} ml) 
-        MilkCanister ({milk_canister_fill_level} ml)
-        Turned {"ON" if is_on else "OFF"}'''
+    print(f'''
+    ---===---
+    CoffeeMachine with: 
+        - WaterCanister ({water_canister_fill_level} ml) 
+        - MilkCanister ({milk_canister_fill_level} ml)
+    Turned {"ON" if is_on else "OFF"}
+    ---===---
+    ''')
 
 
 def prompt_user_with_actions_on_coffee_machine(coffee_machine_is_on: bool = False):
@@ -40,8 +44,11 @@ def prompt_user_with_actions_on_coffee_machine(coffee_machine_is_on: bool = Fals
 
 
 def present_coffee(volume, milk):
-    click.echo(f'{volume}ml Coffee{" with milk" if milk else ""} is ready!')
+    click.echo(f'''
+    Yes! {volume}ml Coffee{" with milk" if milk else ""} is ready!''')
 
 
 def show_error(text):
-    click.echo(text)
+    click.echo(f'''
+    No, no, no - {text}''')
+
