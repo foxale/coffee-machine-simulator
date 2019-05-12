@@ -9,7 +9,7 @@
  
  ### Prerequisites
  
- The project is fully based on __Python 3.7+__
+ The project is fully based on __Python 3.7__
  
  Following library dependencies for the python code can be found in `requirements.txt`.  
  ```
@@ -25,8 +25,15 @@
 3. Enjoy the properly configured development environment
 
  ## Running the simulator
+ 
+ ### Standard way
+1. Go to a directory one level above the project root directory
+2. Run `python python_coffee_machine`
+3. Enjoy the interaction with the coffee machine
+
+### Alternative way 
 1. Go to the project root directory
-2. Run `python __main__.py` in your console or terminal
+2. Run `python __main__.py`
 3. Enjoy the interaction with the coffee machine
  
  
