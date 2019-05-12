@@ -94,6 +94,8 @@ class TestCoffeeMachine:
         while create_coffee_machine.milk_level >= create_coffee_machine.milk_serving:
             create_coffee_machine.prepare_coffee(with_milk=True)
             create_coffee_machine.refill_water()
+        water_level_before_not_enough_milk_edge_case = create_coffee_machine.water_level
         with pytest.raises(NotEnoughMilk):
             create_coffee_machine.prepare_coffee(with_milk=True)
+        assert create_coffee_machine.water_level == water_level_before_not_enough_milk_edge_case
 

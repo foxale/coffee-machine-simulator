@@ -81,6 +81,14 @@ class CoffeeMachine:
         _coffee_volume = self.get_beverage_volume(beverage='coffee', serving=serving)
         if self._is_on is False:
             raise TurnedOff
+
+        # first check the requirements for a Coffee
+        if self.water_level < _coffee_volume:
+            raise NotEnoughWater
+        if self.milk_level < self.milk_serving:
+            raise NotEnoughMilk
+
+        # then (try to) consume them
         try:
             _water_needed = self._water_canister.get_water(volume=_coffee_volume)
         except NotEnoughWater:
