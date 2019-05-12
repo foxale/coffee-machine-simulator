@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+
+"""
+src.models.canister
+~~~~~~~~~~~~~~~~~~~
+This script contains the Canister model and its two extensions: WaterCanister and MilkCanister.
+"""
 from src.exceptions import NotEnoughMilk
 from src.exceptions import NotEnoughSubstance
 from src.exceptions import NotEnoughWater

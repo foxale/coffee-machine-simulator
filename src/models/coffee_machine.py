@@ -1,4 +1,13 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+
+"""
+src.models.coffee_machine
+~~~~~~~~~~~~~~~~~~~
+This script contains the CoffeeMachine model, which represents a coffee machine.
+A coffee machine can brew various servings of Coffee objects.
+It consists of a milk canister and a water canister.
+"""
+
 from typing import Dict
 
 from src.exceptions import NotEnoughMilk

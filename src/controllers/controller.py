@@ -1,4 +1,11 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+
+"""
+src.controllers.controller
+~~~~~~~~~~~~~~~~~~~
+This script contains the Controller class being in control of the CoffeeMachine's actions.
+"""
+
 from src.exceptions import NotEnoughMilk
 from src.exceptions import NotEnoughWater
 from src.exceptions import TurnedOff

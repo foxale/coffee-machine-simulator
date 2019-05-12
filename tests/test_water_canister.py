@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+
+"""
+tests.test_water_canister
+~~~~~~~~~~~~~~~~~~~
+This script contains tests for the WaterCanister model.
+"""
+
 from pytest import fixture, mark, raises
 
 from src.exceptions import CoffeeMachineException

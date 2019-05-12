@@ -1,4 +1,12 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+
+"""
+src.views.view
+~~~~~~~~~~~~~~~~~~~
+This script contains the main and only view of the application.
+It is implemented as a CLI; it requires Click module.
+"""
+
 import click
 
 from src.utils import Mililiters

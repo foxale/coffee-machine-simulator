@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+
+"""
+tests.test_canister
+~~~~~~~~~~~~~~~~~~~
+This script contains tests for the Canister model.
+"""
+
 from random import randrange
 
 from pytest import fixture, mark, raises

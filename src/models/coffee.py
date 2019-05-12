@@ -1,4 +1,12 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+
+"""
+src.models.coffee
+~~~~~~~~~~~~~~~~~~~
+This script contains the Coffee model, which represents a coffee beverage.
+A coffee beverage can be brewed by a CoffeeMachine object.
+"""
+
 from src.utils import Mililiters
 
 

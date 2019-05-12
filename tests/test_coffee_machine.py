@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+
+"""
+tests.test_milk_canister
+~~~~~~~~~~~~~~~~~~~
+This script contains tests for the MilkCanister model.
+"""
+
 from typing import List
 
 import pytest

@@ -3,7 +3,7 @@
 """
 src.exceptions
 ~~~~~~~~~~~~~~~~~~~
-This module contains the set of CoffeeMachine's exceptions.
+This module contains exceptions related to the CoffeeMachine.
 """
 
 
