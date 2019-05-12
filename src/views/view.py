@@ -39,7 +39,7 @@ def prompt_user_with_actions_on_coffee_machine(coffee_machine_is_on: bool = Fals
             'refill water',
             'refill milk',
             'go away'
-        ]))
+        ], case_sensitive=False))
     return choice
 
 
