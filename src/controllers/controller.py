@@ -36,7 +36,10 @@ class Controller:
                                     is_on=self.coffee_machine.is_on)
 
     def get_user_action(self) -> None:
-        choice: str = self.view.prompt_user_with_actions_on_coffee_machine(coffee_machine_is_on=self.coffee_machine.is_on)
+        choice: str = self.view.prompt_user_with_possible_actions(
+            coffee_machine_is_on=self.coffee_machine.is_on
+        )
+
         if 'turn the coffee machine' in choice:
             self.coffee_machine.turn_on() if 'ON' in choice else self.coffee_machine.turn_off()
         elif 'coffee' in choice:

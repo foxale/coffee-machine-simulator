@@ -91,13 +91,16 @@ class TestCoffeeMachine:
     def test_prepare_coffee_with_milk(self, create_coffee_machine: CoffeeMachine) -> None:
         """Test preparing coffee with milk"""
         create_coffee_machine.turn_on()
-        _water_before, _milk_before = create_coffee_machine.water_level, create_coffee_machine.milk_level
+        _water_before = create_coffee_machine.water_level
+        _milk_before = create_coffee_machine.milk_level
         # prepare the first coffee with milk
         _coffee_with_milk_1 = create_coffee_machine.prepare_coffee(with_milk=True)
-        _water_after_first_coffee, _milk_after_first_coffee = create_coffee_machine.water_level, create_coffee_machine.milk_level
+        _water_after_first_coffee = create_coffee_machine.water_level
+        _milk_after_first_coffee = create_coffee_machine.milk_level
         # prepare the second coffee with milk
         _coffee_with_milk_2 = create_coffee_machine.prepare_coffee_with_milk()
-        _water_after_second_coffee, _milk_after_second_coffee = create_coffee_machine.water_level, create_coffee_machine.milk_level
+        _water_after_second_coffee = create_coffee_machine.water_level
+        _milk_after_second_coffee = create_coffee_machine.milk_level
         # make sure the coffees are the same
         assert _coffee_with_milk_1 == _coffee_with_milk_2
         # make sure each one used some water and milk
@@ -107,13 +110,16 @@ class TestCoffeeMachine:
     def test_prepare_coffee_without_milk(self, create_coffee_machine: CoffeeMachine) -> None:
         """Test preparing coffee with milk"""
         create_coffee_machine.turn_on()
-        _water_before, _milk_before = create_coffee_machine.water_level, create_coffee_machine.milk_level
+        _water_before = create_coffee_machine.water_level
+        _milk_before = create_coffee_machine.milk_level
         # prepare the first coffee without milk
         _coffee_without_milk_1 = create_coffee_machine.prepare_coffee()
-        _water_after_first_coffee, _milk_after_first_coffee = create_coffee_machine.water_level, create_coffee_machine.milk_level
+        _water_after_first_coffee = create_coffee_machine.water_level
+        _milk_after_first_coffee = create_coffee_machine.milk_level
         # prepare the second coffee without milk
         _coffee_without_milk_2 = create_coffee_machine.prepare_coffee(with_milk=False)
-        _water_after_second_coffee, _milk_after_second_coffee = create_coffee_machine.water_level, create_coffee_machine.milk_level
+        _water_after_second_coffee = create_coffee_machine.water_level
+        _milk_after_second_coffee = create_coffee_machine.milk_level
         # make sure the coffees are the same
         assert _coffee_without_milk_1 == _coffee_without_milk_2
         # make sure each one used some water and milk
