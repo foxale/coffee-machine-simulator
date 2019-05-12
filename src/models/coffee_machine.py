@@ -85,7 +85,7 @@ class CoffeeMachine:
         # first check the requirements for a Coffee
         if self.water_level < _coffee_volume:
             raise NotEnoughWater
-        if self.milk_level < self.milk_serving:
+        if with_milk and self.milk_level < self.milk_serving:
             raise NotEnoughMilk
 
         # then (try to) consume them
@@ -93,14 +93,14 @@ class CoffeeMachine:
             _water_needed = self._water_canister.get_water(volume=_coffee_volume)
         except NotEnoughWater:
             raise NotEnoughWater
-        try:
-            _milk_needed = self._milk_canister.get_milk(volume=self._milk_serving)
-        except NotEnoughMilk:
-            raise NotEnoughMilk
-        else:
-            # TODO: use the water to brew coffee with Brewer object
-            #  instead of just mocking the whole process
-            return Coffee(volume=_water_needed, with_milk=with_milk)
+        if with_milk:
+            try:
+                _milk_needed = self._milk_canister.get_milk(volume=self._milk_serving)
+            except NotEnoughMilk:
+                raise NotEnoughMilk
+        # TODO: use the water to brew coffee with Brewer object
+        #  instead of just mocking the whole process
+        return Coffee(volume=_water_needed, with_milk=with_milk)
 
     def prepare_coffee_with_milk(self, serving: str = 'default') -> Coffee:
         """Explicitly ask for a coffee with milk. No milk, no satisfaction."""
