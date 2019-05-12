@@ -43,7 +43,7 @@ class Canister:
 class WaterCanister(Canister):
     """The WaterCanister contains water needed for preparing beverages"""
 
-    def __init__(self, capacity: Mililiters = 1000):
+    def __init__(self, capacity: Mililiters = 1000) -> None:
         super().__init__(capacity=capacity)
         self.error_when_empty = NotEnoughWater
 
@@ -55,7 +55,7 @@ class WaterCanister(Canister):
 class MilkCanister(Canister):
     """The MilkCanister contains milk needed for preparing beverages"""
 
-    def __init__(self, capacity: Mililiters = 1000):
+    def __init__(self, capacity: Mililiters = 1000) -> None:
         super().__init__(capacity=capacity)
         self.error_when_empty = NotEnoughMilk
 

@@ -18,23 +18,23 @@ from src.models.coffee_machine import CoffeeMachine
 
 
 @pytest.fixture()
-def create_coffee_machine():
+def create_coffee_machine() -> CoffeeMachine:
     """Create CoffeeMachine object for testing."""
     _coffee_machine = CoffeeMachine()
     return _coffee_machine
 
 
-def assert_all_elements_are_equal(elements: List):
+def assert_all_elements_are_equal(elements: List) -> None:
     assert len(set(elements)) == 1
 
 
 class TestCoffeeMachine:
 
-    def test_initialization(self, create_coffee_machine):
+    def test_initialization(self, create_coffee_machine: CoffeeMachine) -> None:
         """Test CoffeeMachine object initialization"""
         pass
 
-    def test_turn_on_and_off(self, create_coffee_machine):
+    def test_turn_on_and_off(self, create_coffee_machine: CoffeeMachine) -> None:
         """Test if we can properly turn the CoffeeMachine on and off"""
         create_coffee_machine.turn_off()
         assert create_coffee_machine.is_on is False
@@ -43,13 +43,14 @@ class TestCoffeeMachine:
         create_coffee_machine.turn_off()
         assert create_coffee_machine.is_on is False
 
-    def test_prepare_coffee(self, create_coffee_machine):
+    def test_prepare_coffee(self, create_coffee_machine: CoffeeMachine) -> None:
         """Test the main CoffeeMachine functionality - preparing coffee"""
         create_coffee_machine.turn_on()
         _result = create_coffee_machine.prepare_coffee()
         assert type(_result) is Coffee
 
-    def test_prepare_coffee_raise_exception_when_off(self, create_coffee_machine):
+    def test_prepare_coffee_raise_exception_when_off(self,
+                                                     create_coffee_machine: CoffeeMachine) -> None:
         """You can't get no Coffee, when the CoffeeMachine is turned off"""
         create_coffee_machine.turn_off()
         with pytest.raises(TurnedOff):
@@ -59,11 +60,11 @@ class TestCoffeeMachine:
         raises=AssertionError,
         reason='''Initializing Canister with 0 or filled with substance is a still 
                unresolved issue''')
-    def test_water_level(self, create_coffee_machine):
+    def test_water_level(self, create_coffee_machine: CoffeeMachine) -> None:
         """Test checking the water level in WaterTank"""
         assert create_coffee_machine.water_level == 0
 
-    def test_get_beverage_volume_default(self, create_coffee_machine: CoffeeMachine):
+    def test_get_beverage_volume_default(self, create_coffee_machine: CoffeeMachine) -> None:
         """Test getting beverage volume, when beverage is default, missing or incorrect"""
         default_beverage_volumes = [
             create_coffee_machine.get_beverage_volume(),
@@ -78,7 +79,7 @@ class TestCoffeeMachine:
 
     def test_prepare_coffee_raise_exception_when_not_enough_water(
             self,
-            create_coffee_machine: CoffeeMachine):
+            create_coffee_machine: CoffeeMachine) -> None:
         """Test preparing coffee with not enough water in the WaterCanister"""
         coffee_volume = create_coffee_machine.get_beverage_volume(beverage='coffee')
         create_coffee_machine.turn_on()
@@ -87,7 +88,7 @@ class TestCoffeeMachine:
         with pytest.raises(NotEnoughWater):
             create_coffee_machine.prepare_coffee()
 
-    def test_prepare_coffee_with_milk(self, create_coffee_machine: CoffeeMachine):
+    def test_prepare_coffee_with_milk(self, create_coffee_machine: CoffeeMachine) -> None:
         """Test preparing coffee with milk"""
         create_coffee_machine.turn_on()
         _water_before, _milk_before = create_coffee_machine.water_level, create_coffee_machine.milk_level
@@ -103,7 +104,7 @@ class TestCoffeeMachine:
         assert _water_before > _water_after_first_coffee > _water_after_second_coffee
         assert _milk_before > _milk_after_first_coffee > _milk_after_second_coffee
 
-    def test_prepare_coffee_without_milk(self, create_coffee_machine: CoffeeMachine):
+    def test_prepare_coffee_without_milk(self, create_coffee_machine: CoffeeMachine) -> None:
         """Test preparing coffee with milk"""
         create_coffee_machine.turn_on()
         _water_before, _milk_before = create_coffee_machine.water_level, create_coffee_machine.milk_level
@@ -121,7 +122,7 @@ class TestCoffeeMachine:
 
     def test_prepare_coffee_raise_exception_when_not_enough_milk(
             self,
-            create_coffee_machine: CoffeeMachine):
+            create_coffee_machine: CoffeeMachine) -> None:
         """Test preparing coffee with not enough milk in the MilkCanister"""
         create_coffee_machine.turn_on()
         while create_coffee_machine.milk_level >= create_coffee_machine.milk_serving:

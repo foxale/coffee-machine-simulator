@@ -15,7 +15,7 @@ from src.utils import Mililiters
 
 
 @fixture()
-def create_milk_canister(request):
+def create_milk_canister(request) -> MilkCanister:
     """Create MilkCanister object for testing."""
     try:
         _canister_capacity = request.param
@@ -27,7 +27,7 @@ def create_milk_canister(request):
 
 class TestMilkCanister:
 
-    capacity_default = 1000
+    capacity_default: Mililiters = 1000
 
     @mark.parametrize(
         ('create_milk_canister', 'milk_volume', 'expectation'),
@@ -38,7 +38,7 @@ class TestMilkCanister:
     def test_fill_level_raise_not_enough_milk(self,
                                               create_milk_canister: MilkCanister,
                                               milk_volume: Mililiters,
-                                              expectation: CoffeeMachineException):
+                                              expectation: CoffeeMachineException) -> None:
         """Test an edge case, when there is not enough milk to get from the MilkCanister"""
         with expectation:
             create_milk_canister.get_milk(volume=milk_volume)

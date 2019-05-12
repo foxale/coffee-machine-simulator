@@ -47,12 +47,12 @@ class CoffeeMachine:
 
     def __init__(self,
                  water_canister_capacity: Mililiters = 1000,
-                 milk_canister_capacity: Mililiters = 500):
-        self._is_on = False
-        self._water_canister = WaterCanister(capacity=water_canister_capacity)
-        self._milk_canister = MilkCanister(capacity=milk_canister_capacity)
+                 milk_canister_capacity: Mililiters = 500) -> None:
+        self._is_on: bool = False
+        self._water_canister: WaterCanister = WaterCanister(capacity=water_canister_capacity)
+        self._milk_canister: MilkCanister = MilkCanister(capacity=milk_canister_capacity)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f'''CoffeeMachine with: 
         WaterCanister ({self._water_canister.fill_level}/{self._water_canister.capacity} ml) 
         MilkCanister ({self._milk_canister.fill_level}/{self._milk_canister.capacity} ml)
@@ -115,11 +115,11 @@ class CoffeeMachine:
         """Explicitly ask for a coffee with milk. No milk, no satisfaction."""
         return self.prepare_coffee(serving=serving, with_milk=True)
 
-    def refill_water(self):
+    def refill_water(self) -> None:
         """Make sure there is enough water for the beverages to be brewed"""
         self._water_canister.refill()
 
-    def refill_milk(self):
+    def refill_milk(self) -> None:
         """Don't forget about the milk"""
         self._milk_canister.refill()
 

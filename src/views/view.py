@@ -14,7 +14,7 @@ from src.utils import Mililiters
 
 def present_coffee_machine(water_canister_fill_level: Mililiters,
                            milk_canister_fill_level: Mililiters,
-                           is_on: bool):
+                           is_on: bool) -> None:
     print(f'''
     ---===---
     CoffeeMachine with: 
@@ -25,7 +25,7 @@ def present_coffee_machine(water_canister_fill_level: Mililiters,
     ''')
 
 
-def prompt_user_with_actions_on_coffee_machine(coffee_machine_is_on: bool = False):
+def prompt_user_with_actions_on_coffee_machine(coffee_machine_is_on: bool = False) -> str:
     choice = click.prompt(
         'What would you like to do now?', 
         type=click.Choice([
@@ -43,12 +43,12 @@ def prompt_user_with_actions_on_coffee_machine(coffee_machine_is_on: bool = Fals
     return choice
 
 
-def present_coffee(volume, milk):
+def present_coffee(volume: Mililiters, milk: Mililiters) -> None:
     click.echo(f'''
     Yes! {volume}ml Coffee{" with milk" if milk else ""} is ready!''')
 
 
-def show_error(text):
+def show_error(text: str) -> None:
     click.echo(f'''
     No, no, no - {text}''')
 

@@ -15,7 +15,7 @@ from src.views import view
 
 class Controller:
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.play = False
         self.coffee_machine = CoffeeMachine(
             water_canister_capacity=500,
@@ -24,7 +24,7 @@ class Controller:
         self.coffee_machine.turn_on()
         self.view = view
 
-    def run(self):
+    def run(self) -> None:
         self.play = True
         while self.play:
             self.present_coffee_machine()
@@ -35,8 +35,8 @@ class Controller:
                                     milk_canister_fill_level=self.coffee_machine.milk_level,
                                     is_on=self.coffee_machine.is_on)
 
-    def get_user_action(self):
-        choice = self.view.prompt_user_with_actions_on_coffee_machine(coffee_machine_is_on=self.coffee_machine.is_on)
+    def get_user_action(self) -> None:
+        choice: str = self.view.prompt_user_with_actions_on_coffee_machine(coffee_machine_is_on=self.coffee_machine.is_on)
         if 'turn the coffee machine' in choice:
             self.coffee_machine.turn_on() if 'ON' in choice else self.coffee_machine.turn_off()
         elif 'drink' in choice:
@@ -50,11 +50,11 @@ class Controller:
         elif choice == 'refill milk':
             self.coffee_machine.refill_milk()
 
-    def prepare_beverage(self, beverage, serving, with_milk):
+    def prepare_beverage(self, beverage: str, serving: str, with_milk: bool) -> None:
         if beverage == 'coffee':
             self.prepare_coffee(serving=serving, with_milk=with_milk)
 
-    def prepare_coffee(self, serving: str, with_milk: bool):
+    def prepare_coffee(self, serving: str, with_milk: bool) -> None:
         try:
             coffee = self.coffee_machine.prepare_coffee(serving=serving, with_milk=with_milk)
         except NotEnoughWater:

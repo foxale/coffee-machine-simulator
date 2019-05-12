@@ -5,7 +5,6 @@ tests.test_water_canister
 ~~~~~~~~~~~~~~~~~~~
 This script contains tests for the WaterCanister model.
 """
-
 from pytest import fixture, mark, raises
 
 from src.exceptions import CoffeeMachineException
@@ -14,8 +13,8 @@ from src.models.canister import WaterCanister
 from src.utils import Mililiters
 
 
-@fixture()
-def create_water_canister(request):
+@fixture
+def create_water_canister(request) -> WaterCanister:
     """Create WaterCanister object for testing."""
     try:
         _canister_capacity = request.param
@@ -27,7 +26,7 @@ def create_water_canister(request):
 
 class TestWaterCanister:
 
-    capacity_default = 1000
+    capacity_default: Mililiters = 1000
 
     @mark.parametrize(
         ('create_water_canister', 'water_volume', 'expectation'),
@@ -38,7 +37,7 @@ class TestWaterCanister:
     def test_fill_level_raise_not_enough_water(self,
                                                create_water_canister: WaterCanister,
                                                water_volume: Mililiters,
-                                               expectation: CoffeeMachineException):
+                                               expectation: CoffeeMachineException) -> None:
         """Test an edge case, when there is not enough water to get from the WaterCanister"""
         with expectation:
             create_water_canister.get_water(volume=water_volume)
