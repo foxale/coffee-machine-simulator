@@ -17,6 +17,8 @@ Among the features, design patterns and frameworks I rejected or postponed, were
  - __producer-consumer pattern__ - so we could order multiple coffees for all our coworkers and go play some table football in the meantime; tempting, but an overkill for now 
  - __Tkinter__ (or some other GUI lib) - as clearly stated in the task description, there was absolutely no reason to waste more than 15 minutes for GUI 
  - __Docker__ - there was no indication that the code is meant for production; the dependencies are also extremely simple - just pytest and click  
+ - __dataclasses__ - I actually tried implementing them in here. They are designed for the editable data containers, with no support for private fields, static methods, validators etc.
+ - __attrs__ - it could actually work well integrated into the code. However, I believe there is not enough boilerplate code yet, to optimize the codebase size (I may be wrong, though)
  
 The last commit and pull request are dated on Monday. However, the last commit containing code __did not exceed the Sunday, 11:59 PM deadline__.
 
