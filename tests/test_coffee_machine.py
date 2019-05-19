@@ -37,7 +37,7 @@ class TestCoffeeMachine:
         pass
 
     def test_initial_attribute_values(self) -> None:
-        """Test checking the initial attribute values in CoffeeMachine"""
+        """Test checking the initial attribute values of the CoffeeMachine"""
         assert CoffeeMachine().water_level == 0
         assert CoffeeMachine().milk_level == 0
 

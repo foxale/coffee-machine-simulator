@@ -19,13 +19,13 @@ class CanisterException(Exception):
     """There was an ambiguous exception that occurred while using Canister."""
 
 
-class NotEnoughSubstance(CanisterException):
+class NotEnoughRefillable(CanisterException):
     """There is not enough substance to continue an action"""
 
 
-class NotEnoughWater(NotEnoughSubstance, CoffeeMachineException):
+class NotEnoughWater(NotEnoughRefillable, CoffeeMachineException):
     """There is not enough water to continue preparing a beverage"""
 
 
-class NotEnoughMilk(NotEnoughSubstance, CoffeeMachineException):
+class NotEnoughMilk(NotEnoughRefillable, CoffeeMachineException):
     """There is not enough water to continue preparing a beverage"""
