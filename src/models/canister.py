@@ -28,7 +28,7 @@ class Canister:
     def capacity(self) -> Mililiters:
         return self._capacity
 
-    def get_substance(self, volume: Mililiters = 0) -> Mililiters:
+    def _get_substance(self, volume: Mililiters = 0) -> Mililiters:
         """Pump out a given amount of substance out of the Canister"""
         if self._fill_level < volume:
             raise self.error_when_empty
@@ -49,7 +49,7 @@ class WaterCanister(Canister):
 
     def get_water(self, volume: Mililiters = 0) -> Mililiters:
         """Pump out a given amount of water out of the WaterCanister"""
-        return super().get_substance(volume=volume)
+        return super()._get_substance(volume=volume)
 
 
 class MilkCanister(Canister):
@@ -61,5 +61,5 @@ class MilkCanister(Canister):
 
     def get_milk(self, volume: Mililiters = 0) -> Mililiters:
         """Pump out a given amount of milk out of the MilkCanister"""
-        return super().get_substance(volume=volume)
+        return super()._get_substance(volume=volume)
 

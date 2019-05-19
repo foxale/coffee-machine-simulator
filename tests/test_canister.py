@@ -48,7 +48,7 @@ class TestCanister:
                         expected: Mililiters) -> None:
         """Test if we can get an actual fill level of the Canister"""
         assert create_canister.fill_level == create_canister.capacity
-        create_canister.get_substance(volume=substance_to_get)
+        create_canister._get_substance(volume=substance_to_get)
         assert create_canister.fill_level == expected
 
     @mark.parametrize(
@@ -63,7 +63,7 @@ class TestCanister:
                                                    expectation: CoffeeMachineException) -> None:
         """Test an edge case, when there is not enough substance to get from the Canister"""
         with expectation:
-            create_canister.get_substance(volume=substance_volume)
+            create_canister._get_substance(volume=substance_volume)
 
     @mark.xfail(
         raises=AssertionError,
@@ -76,11 +76,11 @@ class TestCanister:
     def test_refill(self, create_canister: Canister) -> None:
         """Test refilling Container with substance, after getting some/all of it"""
         _volume = create_canister.capacity
-        create_canister.get_substance(volume=randrange(1, _volume))
+        create_canister._get_substance(volume=randrange(1, _volume))
         assert create_canister.fill_level != create_canister.capacity
         create_canister.refill()
         assert create_canister.fill_level == create_canister.capacity
-        create_canister.get_substance(volume=_volume)
+        create_canister._get_substance(volume=_volume)
         assert create_canister.fill_level == 0
         create_canister.refill()
         assert create_canister.fill_level == create_canister.capacity
