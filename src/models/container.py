@@ -73,6 +73,6 @@ class CoffeeBeansContainer(Container):
         super().__init__(capacity=capacity)
         self.error_when_empty = NotEnoughCoffeeBeans
 
-    def get_coffee(self, weight: Grams = 0) -> Grams:
+    def get_coffee_beans(self, weight: Grams = 0) -> Grams:
         """Obtain a given weight of coffee beans out of the CoffeeBeansContainer"""
         return super()._get_refillable(quantity=weight)

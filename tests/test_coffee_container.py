@@ -42,4 +42,4 @@ class TestCoffeeBeansContainer:
     ) -> None:
         """Test an edge case, when there is not enough coffee to get from the CoffeeBeansContainer"""
         with expected_exception:
-            create_coffee_beans_container.get_coffee(weight=coffee_weight)
+            create_coffee_beans_container.get_coffee_beans(weight=coffee_weight)

@@ -10,14 +10,17 @@ It consists of a milk container and a water container.
 
 from typing import Dict
 
+from models.container import CoffeeBeansContainer
 from src.exceptions import NotEnoughMilk
 from src.exceptions import NotEnoughWater
 from src.exceptions import TurnedOff
+from src.exceptions import NotEnoughCoffeeBeans
 from src.models.container import MilkContainer
 from src.models.container import WaterContainer
 from src.models.coffee import Coffee
 from src.utils import Mililiters
 from utils import Beverage
+from utils import Grams
 from utils import Material
 from utils import Refillable
 from utils import Serving
@@ -51,10 +54,13 @@ class CoffeeMachine:
 
     def __init__(self,
                  water_container_capacity: Mililiters = 1000,
-                 milk_container_capacity: Mililiters = 500) -> None:
+                 milk_container_capacity: Mililiters = 500,
+                 coffee_beans_container_capacity: Grams = 300) -> None:
         self._is_on: bool = False
         self._water_container: WaterContainer = WaterContainer(capacity=water_container_capacity)
         self._milk_container: MilkContainer = MilkContainer(capacity=milk_container_capacity)
+        self._coffee_beans_container: CoffeeBeansContainer = CoffeeBeansContainer(
+            capacity=coffee_beans_container_capacity)
 
     def __str__(self) -> str:
         return f'''CoffeeMachine with: 
@@ -77,6 +83,11 @@ class CoffeeMachine:
         return self._milk_container.fill_level
 
     @property
+    def coffee_beans_level(self) -> Grams:
+        """Check the remaining coffee beans in the container"""
+        return self._coffee_beans_container.fill_level
+
+    @property
     def milk_serving(self) -> Mililiters:
         """Check the milk serving for a beverage with milk"""
         return CoffeeMachine._milk_serving
@@ -92,14 +103,18 @@ class CoffeeMachine:
     def prepare_coffee(self, serving: Serving = 'default', with_milk: bool = False) -> Coffee:
         """Preparing Coffee never was so simple."""
         _coffee_volume = self.get_beverage_volume(beverage='coffee', serving=serving)
+        _coffee_beans_weight = self.get_beverage_coffee_beans_weight(beverage='coffee',
+                                                                     serving=serving)
         if self._is_on is False:
             raise TurnedOff
 
-        # first check the requirements for a Coffee
+        # first check the requirements for a requested Coffee
         if self.water_level < _coffee_volume:
             raise NotEnoughWater
         if with_milk and self.milk_level < self.milk_serving:
             raise NotEnoughMilk
+        if self.coffee_beans_level < _coffee_beans_weight:
+            raise NotEnoughCoffeeBeans
 
         # then (try to) consume them
         try:
@@ -111,6 +126,11 @@ class CoffeeMachine:
                 _milk_needed = self._milk_container.get_milk(volume=self._milk_serving)
             except NotEnoughMilk:
                 raise NotEnoughMilk
+        try:
+            _coffee_beans_needed = self._coffee_beans_container.get_coffee_beans(
+                weight=_coffee_beans_weight)
+        except NotEnoughWater:
+            raise NotEnoughWater
         # TODO: use the water to brew coffee with Brewer object
         #  instead of just mocking the whole process
         return Coffee(volume=_water_needed, with_milk=with_milk)
@@ -127,8 +147,13 @@ class CoffeeMachine:
         """Don't forget about the milk"""
         self._milk_container.refill()
 
+    def refill_coffee_beans(self):
+        """No coffee beans? Not anymore!"""
+        self._coffee_beans_container.refill()
+
     @staticmethod
-    def _get_servings_mapping(beverage: Beverage = 'default') -> Dict[Serving, Dict[Material, Refillable]]:
+    def _get_servings_mapping(beverage: Beverage = 'default'
+                              ) -> Dict[Serving, Dict[Material, Refillable]]:
         """Get a mapping between the beverage and its servings"""
         try:
             return CoffeeMachine._servings[beverage]
@@ -139,7 +164,7 @@ class CoffeeMachine:
     @staticmethod
     def get_beverage_volume(beverage: Beverage = 'default',
                             serving: Serving = 'default') -> Mililiters:
-        """Get volume of the specific serving of the specific beverage"""
+        """Get volume of the water used for the specific serving of the specific beverage"""
         _beverage_serving_to_ml: Dict[Serving, Dict[Material, Refillable]] = \
             CoffeeMachine._get_servings_mapping(beverage)
         try:
@@ -147,3 +172,16 @@ class CoffeeMachine:
         except KeyError:
             # TODO: inform about switching to default value
             return _beverage_serving_to_ml['default']['water']
+
+    @staticmethod
+    def get_beverage_coffee_beans_weight(beverage: Beverage = 'default',
+                                         serving: Serving = 'default') -> Grams:
+        """Get weight of the coffee beans used for the specific serving of the specific beverage"""
+        _beverage_serving_to_ml: Dict[Serving, Dict[Material, Refillable]] = \
+            CoffeeMachine._get_servings_mapping(beverage)
+        try:
+            return _beverage_serving_to_ml[serving]['coffee beans']
+        except KeyError:
+            # TODO: inform about switching to default value
+            return _beverage_serving_to_ml['default']['coffee beans']
+
