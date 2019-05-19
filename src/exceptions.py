@@ -29,3 +29,7 @@ class NotEnoughWater(NotEnoughRefillable, CoffeeMachineException):
 
 class NotEnoughMilk(NotEnoughRefillable, CoffeeMachineException):
     """There is not enough water to continue preparing a beverage"""
+
+
+class NotEnoughCoffeeBeans(NotEnoughRefillable, CoffeeMachineException):
+    """There is not enough coffee beans to continue preparing a beverage"""

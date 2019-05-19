@@ -5,10 +5,12 @@ src.models.container
 ~~~~~~~~~~~~~~~~~~~
 This script contains the Container model and its two extensions: WaterContainer and MilkContainer.
 """
+from src.exceptions import NotEnoughCoffeeBeans
 from src.exceptions import NotEnoughRefillable
 from src.exceptions import NotEnoughMilk
 from src.exceptions import NotEnoughWater
 from src.utils import Mililiters, Refillable
+from utils import Grams
 
 
 class Container:
@@ -62,3 +64,15 @@ class MilkContainer(Container):
     def get_milk(self, volume: Mililiters = 0) -> Mililiters:
         """Pump out a given amount of milk out of the MilkContainer"""
         return super()._get_refillable(quantity=volume)
+
+
+class CoffeeBeansContainer(Container):
+    """The CoffeeBeansContainer contains coffee beans needed for preparing beverages"""
+
+    def __init__(self, capacity: Grams = 300) -> None:
+        super().__init__(capacity=capacity)
+        self.error_when_empty = NotEnoughCoffeeBeans
+
+    def get_coffee(self, weight: Grams = 0) -> Grams:
+        """Obtain a given weight of coffee beans out of the CoffeeBeansContainer"""
+        return super()._get_refillable(quantity=weight)
