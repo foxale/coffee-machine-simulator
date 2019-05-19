@@ -17,30 +17,34 @@ from src.models.container import MilkContainer
 from src.models.container import WaterContainer
 from src.models.coffee import Coffee
 from src.utils import Mililiters
+from utils import Beverage
+from utils import Material
+from utils import Refillable
+from utils import Serving
 
 
 class CoffeeMachine:
     """The CoffeeMachine serves coffee-like beverages"""
 
-    _serving_to_ml: Dict[str, Dict[str, Mililiters]] = {
+    _servings: Dict[Beverage, Dict[Serving, Dict[Material, Refillable]]] = {
         'coffee': {
-            'small': 100,
-            'medium': 150,
-            'large': 250,
-            'default': 150
+            'small': {'water': 100, 'coffee beans': 8},
+            'medium': {'water': 150, 'coffee beans': 12},
+            'large': {'water': 250, 'coffee beans': 20},
+            'default': {'water': 150, 'coffee beans': 12}
         },
-        'espresso': {
-            'single': 50,
-            'double': 100,
-            'default': 50
-        },
+        # 'espresso': {
+        #     'single': {'water': 50, 'coffee beans': 10},
+        #     'double': {'water': 100, 'coffee beans': 20},
+        #     'default': 50
+        # },
         'default': {
-            'single': 50,
-            'double': 100,
-            'small': 100,
-            'medium': 150,
-            'large': 250,
-            'default': 100,
+            # 'single': {'water': 50, 'coffee beans': 10},
+            # 'double': {'water': 100, 'coffee beans': 20},
+            'small': {'water': 100, 'coffee beans': 8},
+            'medium': {'water': 150, 'coffee beans': 12},
+            'large': {'water': 250, 'coffee beans': 20},
+            'default': {'water': 150, 'coffee beans': 12}
         }
     }
     _milk_serving: Mililiters = 50
@@ -57,7 +61,7 @@ class CoffeeMachine:
         WaterContainer ({self._water_container.fill_level}/{self._water_container.capacity} ml) 
         MilkContainer ({self._milk_container.fill_level}/{self._milk_container.capacity} ml)
         Turned {"ON" if self._is_on else "OFF"}'''
-        
+
     @property
     def is_on(self) -> bool:
         return self._is_on
@@ -85,7 +89,7 @@ class CoffeeMachine:
         """It's over. Turn is off, for God's sake."""
         self._is_on = False
 
-    def prepare_coffee(self, serving: str = 'default', with_milk: bool = False) -> Coffee:
+    def prepare_coffee(self, serving: Serving = 'default', with_milk: bool = False) -> Coffee:
         """Preparing Coffee never was so simple."""
         _coffee_volume = self.get_beverage_volume(beverage='coffee', serving=serving)
         if self._is_on is False:
@@ -111,7 +115,7 @@ class CoffeeMachine:
         #  instead of just mocking the whole process
         return Coffee(volume=_water_needed, with_milk=with_milk)
 
-    def prepare_coffee_with_milk(self, serving: str = 'default') -> Coffee:
+    def prepare_coffee_with_milk(self, serving: Serving = 'default') -> Coffee:
         """Explicitly ask for a coffee with milk. No milk, no satisfaction."""
         return self.prepare_coffee(serving=serving, with_milk=True)
 
@@ -124,20 +128,22 @@ class CoffeeMachine:
         self._milk_container.refill()
 
     @staticmethod
-    def _get_servings_mapping(beverage: str = 'default') -> Dict[str, Mililiters]:
+    def _get_servings_mapping(beverage: Beverage = 'default') -> Dict[Serving, Dict[Material, Refillable]]:
         """Get a mapping between the beverage and its servings"""
         try:
-            return CoffeeMachine._serving_to_ml[beverage]
+            return CoffeeMachine._servings[beverage]
         except KeyError:
             # TODO: inform about switching to default value
-            return CoffeeMachine._serving_to_ml['default']
+            return CoffeeMachine._servings['default']
 
     @staticmethod
-    def get_beverage_volume(beverage: str = 'default', serving: str = 'default') -> Mililiters:
+    def get_beverage_volume(beverage: Beverage = 'default',
+                            serving: Serving = 'default') -> Mililiters:
         """Get volume of the specific serving of the specific beverage"""
-        _beverage_serving_to_ml = CoffeeMachine._get_servings_mapping(beverage)
+        _beverage_serving_to_ml: Dict[Serving, Dict[Material, Refillable]] = \
+            CoffeeMachine._get_servings_mapping(beverage)
         try:
-            return _beverage_serving_to_ml[serving]
+            return _beverage_serving_to_ml[serving]['water']
         except KeyError:
             # TODO: inform about switching to default value
-            return _beverage_serving_to_ml['default']
+            return _beverage_serving_to_ml['default']['water']

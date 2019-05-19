@@ -10,3 +10,7 @@ from typing import Union
 Mililiters = int
 Grams = int
 Refillable = Union[Mililiters, Grams]
+
+Beverage = str
+Serving = str
+Material = str
