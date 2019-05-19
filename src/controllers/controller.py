@@ -11,16 +11,21 @@ from src.exceptions import NotEnoughWater
 from src.exceptions import TurnedOff
 from src.models.coffee_machine import CoffeeMachine
 from src.views import view
+from utils import Mililiters
 
 
 class Controller:
 
-    def __init__(self) -> None:
+    def __init__(
+            self,
+            coffee_machine_water_container_capacity: Mililiters = 500,
+            coffee_machine_milk_container_capacity: Mililiters = 200,
+            coffee_machine_coffee_beans_container_capacity: Mililiters = 100) -> None:
         self.play = False
         self.coffee_machine = CoffeeMachine(
-            water_container_capacity=500,
-            milk_container_capacity=200,
-            coffee_beans_container_capacity=75
+            water_container_capacity=coffee_machine_water_container_capacity,
+            milk_container_capacity=coffee_machine_milk_container_capacity,
+            coffee_beans_container_capacity=coffee_machine_coffee_beans_container_capacity
         )
         self.coffee_machine.refill_water()
         self.coffee_machine.refill_milk()
