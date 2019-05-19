@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """
-src.models.canister
+src.models.container
 ~~~~~~~~~~~~~~~~~~~
-This script contains the Canister model and its two extensions: WaterCanister and MilkCanister.
+This script contains the Container model and its two extensions: WaterContainer and MilkContainer.
 """
 from src.exceptions import NotEnoughRefillable
 from src.exceptions import NotEnoughMilk
@@ -11,8 +11,8 @@ from src.exceptions import NotEnoughWater
 from src.utils import Mililiters, Refillable
 
 
-class Canister:
-    """The Canister contains the substance needed for preparing beverages"""
+class Container:
+    """The Container contains the substance needed for preparing beverages"""
 
     error_when_empty = NotEnoughRefillable
 
@@ -29,37 +29,37 @@ class Canister:
         return self._capacity
 
     def _get_refillable(self, quantity: Refillable = 0) -> Refillable:
-        """Obtain a given quantity of a refillable material out of the Canister"""
+        """Obtain a given quantity of a refillable material out of the Container"""
         if self._fill_level < quantity:
             raise self.error_when_empty
         self._fill_level -= quantity
         return quantity
 
     def refill(self) -> None:
-        """Refill the Canister to the brim"""
+        """Refill the Container to the brim"""
         self._fill_level = self._capacity
 
 
-class WaterCanister(Canister):
-    """The WaterCanister contains water needed for preparing beverages"""
+class WaterContainer(Container):
+    """The WaterContainer contains water needed for preparing beverages"""
 
     def __init__(self, capacity: Mililiters = 1000) -> None:
         super().__init__(capacity=capacity)
         self.error_when_empty = NotEnoughWater
 
     def get_water(self, volume: Mililiters = 0) -> Mililiters:
-        """Pump out a given amount of water out of the WaterCanister"""
+        """Pump out a given amount of water out of the WaterContainer"""
         return super()._get_refillable(quantity=volume)
 
 
-class MilkCanister(Canister):
-    """The MilkCanister contains milk needed for preparing beverages"""
+class MilkContainer(Container):
+    """The MilkContainer contains milk needed for preparing beverages"""
 
     def __init__(self, capacity: Mililiters = 1000) -> None:
         super().__init__(capacity=capacity)
         self.error_when_empty = NotEnoughMilk
 
     def get_milk(self, volume: Mililiters = 0) -> Mililiters:
-        """Pump out a given amount of milk out of the MilkCanister"""
+        """Pump out a given amount of milk out of the MilkContainer"""
         return super()._get_refillable(quantity=volume)
 

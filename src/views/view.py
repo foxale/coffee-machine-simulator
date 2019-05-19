@@ -12,14 +12,14 @@ import click
 from src.utils import Mililiters
 
 
-def present_coffee_machine(water_canister_fill_level: Mililiters,
-                           milk_canister_fill_level: Mililiters,
+def present_coffee_machine(water_container_fill_level: Mililiters,
+                           milk_container_fill_level: Mililiters,
                            is_on: bool) -> None:
     print(f'''
     ---===---
     CoffeeMachine with: 
-        - WaterCanister ({water_canister_fill_level} ml) 
-        - MilkCanister ({milk_canister_fill_level} ml)
+        - WaterContainer ({water_container_fill_level} ml) 
+        - MilkContainer ({milk_container_fill_level} ml)
     Turned {"ON" if is_on else "OFF"}
     ---===---
     ''')

@@ -15,11 +15,11 @@ class TurnedOff(CoffeeMachineException):
     """An action was performed on a Machine turned off"""
 
 
-class CanisterException(Exception):
-    """There was an ambiguous exception that occurred while using Canister."""
+class ContainerException(Exception):
+    """There was an ambiguous exception that occurred while using Container."""
 
 
-class NotEnoughRefillable(CanisterException):
+class NotEnoughRefillable(ContainerException):
     """There is not enough substance to continue an action"""
 
 

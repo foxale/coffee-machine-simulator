@@ -18,8 +18,8 @@ class Controller:
     def __init__(self) -> None:
         self.play = False
         self.coffee_machine = CoffeeMachine(
-            water_canister_capacity=500,
-            milk_canister_capacity=200
+            water_container_capacity=500,
+            milk_container_capacity=200
         )
         self.coffee_machine.turn_on()
         self.view = view
@@ -31,8 +31,8 @@ class Controller:
             self.get_user_action()
 
     def present_coffee_machine(self) -> None:
-        view.present_coffee_machine(water_canister_fill_level=self.coffee_machine.water_level,
-                                    milk_canister_fill_level=self.coffee_machine.milk_level,
+        view.present_coffee_machine(water_container_fill_level=self.coffee_machine.water_level,
+                                    milk_container_fill_level=self.coffee_machine.milk_level,
                                     is_on=self.coffee_machine.is_on)
 
     def get_user_action(self) -> None:

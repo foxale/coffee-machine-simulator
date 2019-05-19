@@ -5,7 +5,7 @@ src.models.coffee_machine
 ~~~~~~~~~~~~~~~~~~~
 This script contains the CoffeeMachine model, which represents a coffee machine.
 A coffee machine can brew various servings of Coffee objects.
-It consists of a milk canister and a water canister.
+It consists of a milk container and a water container.
 """
 
 from typing import Dict
@@ -13,8 +13,8 @@ from typing import Dict
 from src.exceptions import NotEnoughMilk
 from src.exceptions import NotEnoughWater
 from src.exceptions import TurnedOff
-from src.models.canister import MilkCanister
-from src.models.canister import WaterCanister
+from src.models.container import MilkContainer
+from src.models.container import WaterContainer
 from src.models.coffee import Coffee
 from src.utils import Mililiters
 
@@ -46,16 +46,16 @@ class CoffeeMachine:
     _milk_serving: Mililiters = 50
 
     def __init__(self,
-                 water_canister_capacity: Mililiters = 1000,
-                 milk_canister_capacity: Mililiters = 500) -> None:
+                 water_container_capacity: Mililiters = 1000,
+                 milk_container_capacity: Mililiters = 500) -> None:
         self._is_on: bool = False
-        self._water_canister: WaterCanister = WaterCanister(capacity=water_canister_capacity)
-        self._milk_canister: MilkCanister = MilkCanister(capacity=milk_canister_capacity)
+        self._water_container: WaterContainer = WaterContainer(capacity=water_container_capacity)
+        self._milk_container: MilkContainer = MilkContainer(capacity=milk_container_capacity)
 
     def __str__(self) -> str:
         return f'''CoffeeMachine with: 
-        WaterCanister ({self._water_canister.fill_level}/{self._water_canister.capacity} ml) 
-        MilkCanister ({self._milk_canister.fill_level}/{self._milk_canister.capacity} ml)
+        WaterContainer ({self._water_container.fill_level}/{self._water_container.capacity} ml) 
+        MilkContainer ({self._milk_container.fill_level}/{self._milk_container.capacity} ml)
         Turned {"ON" if self._is_on else "OFF"}'''
         
     @property
@@ -64,13 +64,13 @@ class CoffeeMachine:
 
     @property
     def water_level(self) -> Mililiters:
-        """Check the remaining water in the canister"""
-        return self._water_canister.fill_level
+        """Check the remaining water in the container"""
+        return self._water_container.fill_level
 
     @property
     def milk_level(self) -> Mililiters:
-        """Check the remaining milk in the canister"""
-        return self._milk_canister.fill_level
+        """Check the remaining milk in the container"""
+        return self._milk_container.fill_level
 
     @property
     def milk_serving(self) -> Mililiters:
@@ -99,12 +99,12 @@ class CoffeeMachine:
 
         # then (try to) consume them
         try:
-            _water_needed = self._water_canister.get_water(volume=_coffee_volume)
+            _water_needed = self._water_container.get_water(volume=_coffee_volume)
         except NotEnoughWater:
             raise NotEnoughWater
         if with_milk:
             try:
-                _milk_needed = self._milk_canister.get_milk(volume=self._milk_serving)
+                _milk_needed = self._milk_container.get_milk(volume=self._milk_serving)
             except NotEnoughMilk:
                 raise NotEnoughMilk
         # TODO: use the water to brew coffee with Brewer object
@@ -117,11 +117,11 @@ class CoffeeMachine:
 
     def refill_water(self) -> None:
         """Make sure there is enough water for the beverages to be brewed"""
-        self._water_canister.refill()
+        self._water_container.refill()
 
     def refill_milk(self) -> None:
         """Don't forget about the milk"""
-        self._milk_canister.refill()
+        self._milk_container.refill()
 
     @staticmethod
     def _get_servings_mapping(beverage: str = 'default') -> Dict[str, Mililiters]:

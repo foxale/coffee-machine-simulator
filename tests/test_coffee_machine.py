@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """
-tests.test_milk_canister
+tests.test_milk_container
 ~~~~~~~~~~~~~~~~~~~
-This script contains tests for the MilkCanister model.
+This script contains tests for the MilkContainer model.
 """
 
 from typing import List
@@ -79,7 +79,7 @@ class TestCoffeeMachine:
     def test_prepare_coffee_raise_exception_when_not_enough_water(
             self,
             create_coffee_machine: CoffeeMachine) -> None:
-        """Test preparing coffee with not enough water in the WaterCanister"""
+        """Test preparing coffee with not enough water in the WaterContainer"""
         coffee_volume = create_coffee_machine.get_beverage_volume(beverage='coffee')
         create_coffee_machine.turn_on()
         while create_coffee_machine.water_level >= coffee_volume:
@@ -128,7 +128,7 @@ class TestCoffeeMachine:
     def test_prepare_coffee_raise_exception_when_not_enough_milk(
             self,
             create_coffee_machine: CoffeeMachine) -> None:
-        """Test preparing coffee with not enough milk in the MilkCanister"""
+        """Test preparing coffee with not enough milk in the MilkContainer"""
         create_coffee_machine.turn_on()
         while create_coffee_machine.milk_level >= create_coffee_machine.milk_serving:
             create_coffee_machine.prepare_coffee(with_milk=True)
