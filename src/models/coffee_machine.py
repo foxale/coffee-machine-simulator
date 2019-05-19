@@ -141,5 +141,3 @@ class CoffeeMachine:
         except KeyError:
             # TODO: inform about switching to default value
             return _beverage_serving_to_ml['default']
-
-

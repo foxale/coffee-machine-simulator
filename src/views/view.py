@@ -51,4 +51,3 @@ def present_coffee(volume: Mililiters, milk: Mililiters) -> None:
 def show_error(text: str) -> None:
     click.echo(f'''
     No, no, no - {text}''')
-

@@ -62,4 +62,3 @@ class MilkContainer(Container):
     def get_milk(self, volume: Mililiters = 0) -> Mililiters:
         """Pump out a given amount of milk out of the MilkContainer"""
         return super()._get_refillable(quantity=volume)
-

@@ -11,4 +11,3 @@ from src.controllers.controller import Controller
 if __name__ == '__main__':
     # This will only be executed when this module is run directly
     Controller().run()
-

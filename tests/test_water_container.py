@@ -41,4 +41,3 @@ class TestWaterContainer:
         """Test an edge case, when there is not enough water to get from the WaterContainer"""
         with expectation:
             create_water_container.get_water(volume=water_volume)
-
