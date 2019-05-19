@@ -70,13 +70,13 @@ class TestCoffeeMachine:
     def test_get_beverage_volume_default(self, create_coffee_machine: CoffeeMachine) -> None:
         """Test getting beverage volume, when beverage is default, missing or incorrect"""
         default_beverage_volumes = [
-            create_coffee_machine.get_beverage_volume(),
-            create_coffee_machine.get_beverage_volume(beverage='default'),
-            create_coffee_machine.get_beverage_volume(beverage='default', serving='can'),
-            create_coffee_machine.get_beverage_volume(beverage='default', serving='default'),
-            create_coffee_machine.get_beverage_volume(beverage='coke'),
-            create_coffee_machine.get_beverage_volume(beverage='coke', serving='default'),
-            create_coffee_machine.get_beverage_volume(beverage='coke', serving='can'),
+            create_coffee_machine.get_beverage_water_volume(),
+            create_coffee_machine.get_beverage_water_volume(beverage='default'),
+            create_coffee_machine.get_beverage_water_volume(beverage='default', serving='can'),
+            create_coffee_machine.get_beverage_water_volume(beverage='default', serving='default'),
+            create_coffee_machine.get_beverage_water_volume(beverage='coke'),
+            create_coffee_machine.get_beverage_water_volume(beverage='coke', serving='default'),
+            create_coffee_machine.get_beverage_water_volume(beverage='coke', serving='can'),
         ]
         assert_all_elements_are_equal(elements=default_beverage_volumes)
 
@@ -144,7 +144,7 @@ class TestCoffeeMachine:
             self,
             create_coffee_machine: CoffeeMachine) -> None:
         """Test preparing coffee with not enough water in the WaterContainer"""
-        coffee_volume = create_coffee_machine.get_beverage_volume(beverage='coffee')
+        coffee_volume = create_coffee_machine.get_beverage_water_volume(beverage='coffee')
         create_coffee_machine.turn_on()
         while create_coffee_machine.water_level >= coffee_volume:
             create_coffee_machine.prepare_coffee()

@@ -102,7 +102,7 @@ class CoffeeMachine:
 
     def prepare_coffee(self, serving: Serving = 'default', with_milk: bool = False) -> Coffee:
         """Preparing Coffee never was so simple."""
-        _coffee_volume = self.get_beverage_volume(beverage='coffee', serving=serving)
+        _coffee_volume = self.get_beverage_water_volume(beverage='coffee', serving=serving)
         _coffee_beans_weight = self.get_beverage_coffee_beans_weight(beverage='coffee',
                                                                      serving=serving)
         if self._is_on is False:
@@ -152,9 +152,9 @@ class CoffeeMachine:
         self._coffee_beans_container.refill()
 
     @staticmethod
-    def _get_servings_mapping(beverage: Beverage = 'default'
-                              ) -> Dict[Serving, Dict[Material, Refillable]]:
-        """Get a mapping between the beverage and its servings"""
+    def _get_servings_for_beverage(beverage: Beverage = 'default'
+                                   ) -> Dict[Serving, Dict[Material, Refillable]]:
+        # TODO """Get a mapping between the beverage and its servings"""
         try:
             return CoffeeMachine._servings[beverage]
         except KeyError:
@@ -162,26 +162,42 @@ class CoffeeMachine:
             return CoffeeMachine._servings['default']
 
     @staticmethod
-    def get_beverage_volume(beverage: Beverage = 'default',
-                            serving: Serving = 'default') -> Mililiters:
-        """Get volume of the water used for the specific serving of the specific beverage"""
-        _beverage_serving_to_ml: Dict[Serving, Dict[Material, Refillable]] = \
-            CoffeeMachine._get_servings_mapping(beverage)
+    def _get_required_materials_for_beverage_serving(
+            beverage: Beverage = 'default',
+            serving: Serving = 'default'
+    ) -> Dict[Material, Refillable]:
+        """Get required materials for the specific serving of the specific beverage"""
+        _beverage_servings: Dict[Serving, Dict[Material, Refillable]] = \
+            CoffeeMachine._get_servings_for_beverage(beverage)
         try:
-            return _beverage_serving_to_ml[serving]['water']
+            return _beverage_servings[serving]
         except KeyError:
             # TODO: inform about switching to default value
-            return _beverage_serving_to_ml['default']['water']
+            return _beverage_servings['default']
+
+    @staticmethod
+    def get_beverage_water_volume(beverage: Beverage = 'default',
+                                  serving: Serving = 'default') -> Mililiters:
+        """Get volume of the water used for the specific serving of the specific beverage"""
+        _beverage_serving_required_materials: Dict[Material, Refillable] = \
+            CoffeeMachine._get_required_materials_for_beverage_serving(beverage=beverage,
+                                                                       serving=serving)
+        try:
+            return _beverage_serving_required_materials['water']
+        except KeyError:
+            # TODO: inform about returning 0
+            return 0
 
     @staticmethod
     def get_beverage_coffee_beans_weight(beverage: Beverage = 'default',
                                          serving: Serving = 'default') -> Grams:
         """Get weight of the coffee beans used for the specific serving of the specific beverage"""
-        _beverage_serving_to_ml: Dict[Serving, Dict[Material, Refillable]] = \
-            CoffeeMachine._get_servings_mapping(beverage)
+        _beverage_serving_required_materials: Dict[Material, Refillable] = \
+            CoffeeMachine._get_required_materials_for_beverage_serving(beverage=beverage,
+                                                                       serving=serving)
         try:
-            return _beverage_serving_to_ml[serving]['coffee beans']
+            return _beverage_serving_required_materials['coffee beans']
         except KeyError:
-            # TODO: inform about switching to default value
-            return _beverage_serving_to_ml['default']['coffee beans']
+            # TODO: inform about returning 0
+            return 0
 
