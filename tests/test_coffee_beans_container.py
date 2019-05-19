@@ -26,11 +26,11 @@ def create_coffee_beans_container(request) -> CoffeeBeansContainer:
 
 
 class TestCoffeeBeansContainer:
-    capacity_default: Grams = 300
+    capacity_default: Grams = 75
 
     @mark.parametrize(
         ('create_coffee_beans_container', 'coffee_weight', 'expected_exception'),
-        [(300, 350, raises(NotEnoughCoffeeBeans)),
+        [(75, 100, raises(NotEnoughCoffeeBeans)),
          (0, 1, raises(NotEnoughCoffeeBeans))],
         indirect=['create_coffee_beans_container']
     )

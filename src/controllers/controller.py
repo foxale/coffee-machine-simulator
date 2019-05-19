@@ -5,7 +5,7 @@ src.controllers.controller
 ~~~~~~~~~~~~~~~~~~~
 This script contains the Controller class being in control of the CoffeeMachine's actions.
 """
-
+from src.exceptions import NotEnoughCoffeeBeans
 from src.exceptions import NotEnoughMilk
 from src.exceptions import NotEnoughWater
 from src.exceptions import TurnedOff
@@ -19,8 +19,12 @@ class Controller:
         self.play = False
         self.coffee_machine = CoffeeMachine(
             water_container_capacity=500,
-            milk_container_capacity=200
+            milk_container_capacity=200,
+            coffee_beans_container_capacity=75
         )
+        self.coffee_machine.refill_water()
+        self.coffee_machine.refill_milk()
+        self.coffee_machine.refill_coffee_beans()
         self.coffee_machine.turn_on()
         self.view = view
 
@@ -31,15 +35,17 @@ class Controller:
             self.get_user_action()
 
     def present_coffee_machine(self) -> None:
-        view.present_coffee_machine(water_container_fill_level=self.coffee_machine.water_level,
-                                    milk_container_fill_level=self.coffee_machine.milk_level,
-                                    is_on=self.coffee_machine.is_on)
+        view.present_coffee_machine(
+            water_container_fill_level=self.coffee_machine.water_level,
+            milk_container_fill_level=self.coffee_machine.milk_level,
+            coffee_beans_container_fill_level=self.coffee_machine.coffee_beans_level,
+            is_on=self.coffee_machine.is_on
+        )
 
     def get_user_action(self) -> None:
         choice: str = self.view.prompt_user_with_possible_actions(
             coffee_machine_is_on=self.coffee_machine.is_on
         )
-
         if 'turn the coffee machine' in choice:
             self.coffee_machine.turn_on() if 'ON' in choice else self.coffee_machine.turn_off()
         elif 'coffee' in choice:
@@ -52,6 +58,8 @@ class Controller:
             self.coffee_machine.refill_water()
         elif choice == 'refill milk':
             self.coffee_machine.refill_milk()
+        elif choice == 'refill coffee beans':
+            self.coffee_machine.refill_coffee_beans()
 
     def prepare_coffee(self, serving: str, with_milk: bool) -> None:
         try:
@@ -60,6 +68,8 @@ class Controller:
             self.view.show_error('Not enough water! Refill the water container!')
         except NotEnoughMilk:
             self.view.show_error('Not enough milk! Refill the milk container!')
+        except NotEnoughCoffeeBeans:
+            self.view.show_error('Not enough coffee beans! Refill the coffee beans container!')
         except TurnedOff:
             self.view.show_error('Coffee machine turned off. Turn it on to make beverage!')
         else:

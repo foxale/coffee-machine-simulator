@@ -55,7 +55,7 @@ class CoffeeMachine:
     def __init__(self,
                  water_container_capacity: Mililiters = 1000,
                  milk_container_capacity: Mililiters = 500,
-                 coffee_beans_container_capacity: Grams = 300) -> None:
+                 coffee_beans_container_capacity: Grams = 75) -> None:
         self._is_on: bool = False
         self._water_container: WaterContainer = WaterContainer(capacity=water_container_capacity)
         self._milk_container: MilkContainer = MilkContainer(capacity=milk_container_capacity)
@@ -66,6 +66,7 @@ class CoffeeMachine:
         return f'''CoffeeMachine with: 
         WaterContainer ({self._water_container.fill_level}/{self._water_container.capacity} ml) 
         MilkContainer ({self._milk_container.fill_level}/{self._milk_container.capacity} ml)
+        CoffeeBeansContainer ({self._coffee_beans_container.fill_level}/{self._coffee_beans_container.capacity} ml)
         Turned {"ON" if self._is_on else "OFF"}'''
 
     @property
