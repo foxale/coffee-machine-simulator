@@ -19,8 +19,10 @@ from src.models.coffee_machine import CoffeeMachine
 
 @pytest.fixture()
 def create_coffee_machine() -> CoffeeMachine:
-    """Create CoffeeMachine object for testing."""
+    """Create CoffeeMachine object for testing"""
     _coffee_machine = CoffeeMachine()
+    _coffee_machine.refill_water()
+    _coffee_machine.refill_milk()
     return _coffee_machine
 
 
@@ -33,6 +35,11 @@ class TestCoffeeMachine:
     def test_initialization(self, create_coffee_machine: CoffeeMachine) -> None:
         """Test CoffeeMachine object initialization"""
         pass
+
+    def test_initial_attribute_values(self) -> None:
+        """Test checking the initial attribute values in CoffeeMachine"""
+        assert CoffeeMachine().water_level == 0
+        assert CoffeeMachine().milk_level == 0
 
     def test_turn_on_and_off(self, create_coffee_machine: CoffeeMachine) -> None:
         """Test if we can properly turn the CoffeeMachine on and off"""
@@ -55,14 +62,6 @@ class TestCoffeeMachine:
         create_coffee_machine.turn_off()
         with pytest.raises(TurnedOff):
             create_coffee_machine.prepare_coffee()
-
-    @pytest.mark.xfail(
-        raises=AssertionError,
-        reason='''Initializing Canister with 0 or filled with substance is a still 
-               unresolved issue''')
-    def test_water_level(self, create_coffee_machine: CoffeeMachine) -> None:
-        """Test checking the water level in WaterTank"""
-        assert create_coffee_machine.water_level == 0
 
     def test_get_beverage_volume_default(self, create_coffee_machine: CoffeeMachine) -> None:
         """Test getting beverage volume, when beverage is default, missing or incorrect"""

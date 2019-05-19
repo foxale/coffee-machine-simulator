@@ -18,7 +18,7 @@ class Canister:
 
     def __init__(self, capacity: Mililiters = 1000):
         self._capacity: Mililiters = capacity
-        self._fill_level: Mililiters = capacity
+        self._fill_level: Mililiters = 0
 
     @property
     def fill_level(self) -> Mililiters:
