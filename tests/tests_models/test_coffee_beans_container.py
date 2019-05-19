@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-tests.test_coffee__container
+tests.tests_models.test_coffee__container
 ~~~~~~~~~~~~~~~~~~~
 This script contains tests for the CoffeeBeansContainer model.
 """

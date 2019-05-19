@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-tests.test_water_container
+tests.tests_models.test_water_container
 ~~~~~~~~~~~~~~~~~~~
 This script contains tests for the WaterContainer model.
 """
