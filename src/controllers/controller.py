@@ -76,6 +76,6 @@ class Controller:
         except NotEnoughCoffeeBeans:
             self.view.show_error('Not enough coffee beans! Refill the coffee beans container!')
         except TurnedOff:
-            self.view.show_error('Coffee machine turned off. Turn it on to make beverage!')
+            self.view.show_error('Coffee machine is turned off. Turn it on to make beverage!')
         else:
             self.view.present_coffee(milk=coffee.milk, volume=coffee.volume)
