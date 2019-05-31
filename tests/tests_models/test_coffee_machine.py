@@ -16,7 +16,7 @@ from src.exceptions import NotEnoughWater
 from src.exceptions import TurnedOff
 from src.models.coffee import Coffee
 from src.models.coffee_machine import CoffeeMachine
-from utils import Grams
+from src.utils import Grams
 
 
 @pytest.fixture()

@@ -11,7 +11,7 @@ from src.exceptions import NotEnoughWater
 from src.exceptions import TurnedOff
 from src.models.coffee_machine import CoffeeMachine
 from src.views import view
-from utils import Mililiters
+from src.utils import Mililiters
 
 
 class Controller:

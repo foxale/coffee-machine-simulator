@@ -10,7 +10,7 @@ It consists of a milk container and a water container.
 
 from typing import Dict
 
-from models.container import CoffeeBeansContainer
+from src.models.container import CoffeeBeansContainer
 from src.exceptions import NotEnoughMilk
 from src.exceptions import NotEnoughWater
 from src.exceptions import TurnedOff
@@ -19,11 +19,11 @@ from src.models.container import MilkContainer
 from src.models.container import WaterContainer
 from src.models.coffee import Coffee
 from src.utils import Mililiters
-from utils import Beverage
-from utils import Grams
-from utils import Material
-from utils import Refillable
-from utils import Serving
+from src.utils import Beverage
+from src.utils import Grams
+from src.utils import Material
+from src.utils import Refillable
+from src.utils import Serving
 
 
 class CoffeeMachine:

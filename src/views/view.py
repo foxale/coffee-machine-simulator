@@ -10,7 +10,7 @@ It is implemented as a CLI; it requires Click module.
 import click
 
 from src.utils import Mililiters
-from utils import Grams
+from src.utils import Grams
 
 
 def present_coffee_machine(water_container_fill_level: Mililiters,
